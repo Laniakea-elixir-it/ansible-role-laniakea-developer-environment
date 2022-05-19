@@ -1,0 +1,21 @@
+---
+
+- name: Install code-server
+  include_tasks: codeserver.yml
+  when: install_code_server
+
+- name: Install nextflow
+  include_tasks: nextflow.yml
+  when: install_nextflow
+
+- name: Install conda
+  include_tasks: conda.yml
+  when: install_conda
+
+- name: Install docker
+  include_tasks: docker.yml
+  when: install_docker
+
+- name: Install nginx
+  include_tasks: nginx.yml
+  when: install_nginx

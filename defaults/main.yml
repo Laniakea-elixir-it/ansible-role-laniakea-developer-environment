@@ -1,0 +1,36 @@
+---
+
+export_dir: /export
+
+install_code_server: false
+code_server:
+  password: password
+  user: "ubuntu"
+  host: 0.0.0.0
+  port: 48888
+  data_dir: "{{ export_dir }}/code-server"
+  work_dir: "{{ export_dir }}/code-server/workdir"
+  env:
+    SERVICE_URL: https://open-vsx.org/vscode/gallery
+    ITEM_URL: https://open-vsx.org/vscode/item
+  extensions:
+    - ms-python.python
+    #- ms-toolsai.jupyter
+    - llvm-vs-code-extensions.vscode-clangd
+    - redhat.ansible
+    - hashicorp.terraform
+    - redhat.vscode-yaml
+    - redhat.vscode-xml
+    - hoovercj.vscode-power-mode
+ansible_version: 5.8.0
+
+install_nextflow: false
+nextflow_dir: /usr/local/bin
+nextflow_vsix_path: /tmp/nextflow.vsix
+nextflow_vsix_url: https://marketplace.visualstudio.com/_apis/public/gallery/publishers/nextflow/vsextensions/nextflow/0.3.1/vspackage
+
+install_conda: false
+
+install_docker: false
+
+install_nginx: false
