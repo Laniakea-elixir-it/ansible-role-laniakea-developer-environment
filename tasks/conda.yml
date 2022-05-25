@@ -1,0 +1,33 @@
+---
+
+- name: Add conda gpg key
+  apt_key:
+    url: "{{ conda_gpg_key_url }}"
+    state: present
+
+- name: Add conda repository
+  apt_repository:
+    repo: "{{ conda_repo }}"
+    state: present
+
+- name: Install conda
+  apt:
+    name: conda
+    state: present
+    update_cache: yes
+
+- name: Create conda file symlink
+  file:
+    path: "{{ conda_script_path }}"
+    src: "/opt/conda{{ conda_script_path }}"
+    state: link
+
+- name: Create conda envs directory
+  file:
+    path: "{{ conda_envs_dir }}"
+    state: directory
+
+- name: Create default conda env
+  shell:
+    cmd: /opt/conda/bin/conda create -y --prefix {{ default_conda_env_dir }} python={{ python_version }} {{ default_conda_env_packages | join(' ') }}"
+    creates: "{{ default_conda_env_dir }}"
