@@ -2,6 +2,7 @@
 
 export_dir: /export
 
+# code-server variables
 install_code_server: false
 code_server:
   password: password
@@ -24,13 +25,35 @@ code_server:
     - hoovercj.vscode-power-mode
 ansible_version: 5.8.0
 
+# nextflow variables
 install_nextflow: false
 nextflow_dir: /usr/local/bin
-nextflow_vsix_path: /tmp/nextflow.vsix
-nextflow_vsix_url: https://marketplace.visualstudio.com/_apis/public/gallery/publishers/nextflow/vsextensions/nextflow/0.3.1/vspackage
+node_gpg_key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+node_repo: deb https://deb.nodesource.com/node_14.x focal main
+nextflow_extension_repo_dest: /tmp/vscode-language-nextflow
+nextflow_extension_repo_url: https://github.com/nextflow-io/vscode-language-nextflow.git
+vsix_path: /tmp/nextflow.vsix
 
+# conda variables
 install_conda: false
+conda_gpg_key_url: https://repo.anaconda.com/pkgs/misc/gpgkeys/anaconda.asc
+conda_repo: deb [arch=amd64] https://repo.anaconda.com/pkgs/misc/debrepo/conda stable main
+conda_script_path: /etc/profile.d/conda.sh
+conda_envs_dir: "{{ export_dir }}/conda_envs"
+default_conda_env_name: default
+default_conda_env_dir: "{{ conda_envs_dir }}/{{ default_conda_env_name }}"
+default_conda_env_packages: []
+python_version: 3.7
 
+# docker variables
 install_docker: false
+docker:
+  users: []
+  install_compose: false
+docker_dir: "{{ export_dir }}/docker-images"
 
+# nginx variables
 install_nginx: false
+#nginx_package_version: =1.18.0-0ubuntu1.3
+nginx_install_from: nginx_repository
+static_modules: []
