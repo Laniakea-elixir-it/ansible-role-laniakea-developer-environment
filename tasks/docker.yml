@@ -1,0 +1,9 @@
+---
+
+- name: Install docker with image directory on volume
+  include_role:
+    name: geerlingguy.docker
+  vars:
+    docker_users: "{{ docker.users }}"
+    docker_install_compose: "{{ docker.install_compose }}"
+    docker_daemon_options: { "data-root": "{{ docker_dir }}" }

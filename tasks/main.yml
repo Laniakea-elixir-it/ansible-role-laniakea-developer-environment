@@ -1,5 +1,10 @@
 ---
 
+- name: Create export_dir
+  file:
+    path: "{{ export_dir }}"
+    state: directory
+
 - name: Install code-server
   include_tasks: codeserver.yml
   when: install_code_server
@@ -12,10 +17,12 @@
   include_tasks: conda.yml
   when: install_conda
 
-- name: Install docker
-  include_tasks: docker.yml
-  when: install_docker
+- block:
+  - name: Install docker
+    include_tasks: docker.yml
+    when: install_docker
 
-- name: Install nginx
-  include_tasks: nginx.yml
-  when: install_nginx
+  - name: Install nginx
+    include_tasks: nginx.yml
+    when: install_nginx
+  become: true

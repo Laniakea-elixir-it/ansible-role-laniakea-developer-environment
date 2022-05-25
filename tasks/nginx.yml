@@ -1,0 +1,35 @@
+---
+
+- name: Install NGINX from repository with logrotate
+  include_role:
+    name: nginxinc.nginx
+  vars:
+    #nginx_version: "{{ nginx_package_version }}"
+    nginx_service_modify: true
+    nginx_service_timeout: 95
+    nginx_logrotate_conf_enable: true
+    nginx_logrotate_conf:
+      paths:
+        - /var/log/nginx/*.log
+      options:
+        - daily
+        - missingok
+        - rotate 14
+        - compress
+        - delaycompress
+        - notifempty
+        - sharedscripts
+  when: nginx_install_from == 'nginx_repository'
+
+- name: Install NGINX from source
+  include_role:
+    name: nginxinc.nginx
+  vars:
+    nginx_install_from: source
+    nginx_branch: stable
+    nginx_static_modules: "{{ static_modules }}"
+    nginx_install_source_build_tools: true
+    nginx_install_source_pcre: true
+    nginx_install_source_openssl: true
+    nginx_install_source_zlib: true
+  when: nginx_install_from == 'source'
