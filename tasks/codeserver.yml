@@ -41,6 +41,8 @@
 #   when: "'ms-toolsai.jupyter' in code_server.extensions"
 
 - name: Install code server extensions
-  command:
+  shell:
     cmd: "code-server --install-extension {{ item }}"
   with_items: "{{ code_server.extensions }}"
+  register: extension_installation
+  changed_when: "'is already installed' not in extension_installation.stdout"
