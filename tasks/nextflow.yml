@@ -28,14 +28,6 @@
     path: "{{ ansible_user_dir }}/nextflow"
     state: absent  
 
-# TODO: fix extension installation
-# - name: Download code-server nextflow extension
-#   shell:
-#     cmd: "curl --output {{ nextflow_vsix_path }} {{ nextflow_vsix_url }}"
-#     creates: "{{ nextflow_vsix_path }}"
-#   when: install_code_server
-
-# - name: Install code-server nextflow extension
-#   command:
-#     cmd: code-server --install-extension "{{ nextflow_vsix_path }}"
-#   when: install_code_server
+- name: Add nextflow language extension for code-server
+  include_tasks: nextflow_extension.yml
+  when: install_code_server

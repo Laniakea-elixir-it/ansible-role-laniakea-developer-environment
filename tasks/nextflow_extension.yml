@@ -1,0 +1,45 @@
+---
+
+- name: Add node gpg key
+  apt_key:
+    url: "{{ node_gpg_key_url }}"
+    state: present
+  become: true
+
+- name: Add node 14 repository
+  apt_repository:
+    repo: "{{ node_repo }}"
+    state: present
+    update_cache: true
+  become: true
+
+- name: Install nodejs
+  apt:
+    name: nodejs
+    state: present
+  become: true
+
+- name: Install vsce with npm
+  npm:
+    name: vsce
+    global: yes
+    unsafe_perm: yes
+  become: true
+  #ignore_errors: true
+
+- name: Download nextflow language extension from github
+  git:
+    repo: "{{ nextflow_extension_repo_url }}"
+    dest: "{{ nextflow_extension_repo_dest }}"
+
+- name: Build nextflow.vsix extension
+  shell:
+    cmd: vsce package -o "{{ vsix_path }}"
+    chdir: "{{ nextflow_extension_repo_dest }}"
+    creates: "{{ vsix_path }}"
+
+- name: Install nextflow code server extension
+  shell:
+    cmd: "code-server --install-extension {{ vsix_path }}"
+  register: extension_installation
+  changed_when: "'is already installed' not in extension_installation.stdout"
