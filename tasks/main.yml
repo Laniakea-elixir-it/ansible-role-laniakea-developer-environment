@@ -4,6 +4,7 @@
   file:
     path: "{{ export_dir }}"
     state: directory
+  become: true
 
 - name: Install code-server
   include_tasks: codeserver.yml
