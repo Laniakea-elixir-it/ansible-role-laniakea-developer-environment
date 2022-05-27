@@ -2,6 +2,8 @@
 
 export_dir: /export
 
+user: ubuntu
+
 # code-server variables
 install_code_server: false
 code_server:
@@ -39,10 +41,11 @@ install_conda: false
 conda_gpg_key_url: https://repo.anaconda.com/pkgs/misc/gpgkeys/anaconda.asc
 conda_repo: deb [arch=amd64] https://repo.anaconda.com/pkgs/misc/debrepo/conda stable main
 conda_script_path: /etc/profile.d/conda.sh
+conda_bin: /opt/conda/condabin/conda
 conda_envs_dir: "{{ export_dir }}/conda_envs"
-default_conda_env_name: default
-default_conda_env_dir: "{{ conda_envs_dir }}/{{ default_conda_env_name }}"
-default_conda_env_packages: []
+new_conda_env_name: default
+new_conda_env_dir: "{{ conda_envs_dir }}/{{ new_conda_env_name }}"
+new_conda_env_packages: []
 python_version: 3.7
 
 # docker variables
@@ -54,6 +57,4 @@ docker_dir: "{{ export_dir }}/docker-images"
 
 # nginx variables
 install_nginx: false
-#nginx_package_version: =1.18.0-0ubuntu1.3
-nginx_install_from: nginx_repository
-static_modules: []
+#nginx_package_version: nginx-1.18.0

@@ -19,8 +19,8 @@
     src: "{{ ansible_user_dir }}/nextflow"
     dest: "{{ nextflow_dir }}/nextflow"
     mode: 0744
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
   become: true
 
 - name: Remove old nextflow binary
