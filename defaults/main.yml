@@ -51,7 +51,8 @@ python_version: 3.7
 # docker variables
 install_docker: false
 docker:
-  users: []
+  users:
+    - "{{ user }}"
   install_compose: false
 docker_dir: "{{ export_dir }}/docker-images"
 
