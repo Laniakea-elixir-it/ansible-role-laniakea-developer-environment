@@ -4,30 +4,43 @@
   apt_key:
     url: "{{ conda_gpg_key_url }}"
     state: present
+  become: true
 
 - name: Add conda repository
   apt_repository:
     repo: "{{ conda_repo }}"
     state: present
+  become: true
 
 - name: Install conda
   apt:
     name: conda
     state: present
     update_cache: yes
-
-- name: Create conda file symlink
-  file:
-    path: "{{ conda_script_path }}"
-    src: "/opt/conda{{ conda_script_path }}"
-    state: link
+  become: true
 
 - name: Create conda envs directory
   file:
     path: "{{ conda_envs_dir }}"
     state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+  become: true
+
+- name: Init conda
+  shell:
+    cmd: "{{ conda_bin }} init"
+    creates: "/home/{{ ansible_user }}/.conda"
+
+- name: Add conda envs directory to conda config
+  shell:
+    cmd: "{{ conda_bin }} config --append envs_dirs {{ conda_envs_dir }}"
+
+- name: Set conda prompt
+  shell:
+    cmd: "{{ conda_bin }} config --set env_prompt '({name}) '"
 
 - name: Create default conda env
   shell:
-    cmd: /opt/conda/bin/conda create -y --prefix {{ default_conda_env_dir }} python={{ python_version }} {{ default_conda_env_packages | join(' ') }}"
-    creates: "{{ default_conda_env_dir }}"
+    cmd: "{{ conda_bin }} create -y --prefix={{ new_conda_env_dir }} python={{ python_version }} {{ new_conda_env_packages | join(' ') }}"
+    creates: "{{ new_conda_env_dir }}"
